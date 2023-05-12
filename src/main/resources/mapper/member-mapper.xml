@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Member">
+    <insert id="memberSave" parameterType="member" useGeneratedKeys="true" keyProperty="id">
+        insert into member_table (memberEmail, memberPassword, memberName, memberMobile, fileAttached)
+        values (#{memberEmail}, #{memberPassword}, #{memberName}, #{memberMobile}, #{fileAttached})
+    </insert>
+
+    <select id="findByEmail" parameterType="String" resultType="member">
+        select *
+        from member_table
+        where memberEmail = #{memberEmail}
+    </select>
+
+    <select id="memberLogin" parameterType="member" resultType="member">
+        select memberEmail, memberPassword
+        from member_table
+        where memberEmail = #{memberEmail}
+          and memberPassword = #{memberPassword}
+    </select>
+
+    <insert id="saveFile" parameterType="memberFile">
+        insert into member_memberprofile_table (originalFileName, storedFileName, memberId)
+        values (#{originalFileName}, #{storedFileName}, #{memberId})
+    </insert>
+
+    <select id="memberList" parameterType="HashMap" resultType="member">
+        select id,
+               memberEmail,
+               memberPassword,
+               memberName,
+               concat(substr(memberMobile, 1, 3), '-', substr(memberMobile, 4, 4), '-',
+                      substr(memberMobile, 8, 4)) as memberMobile,
+               fileAttached
+        from member_table
+        order by id desc limit #{start}, #{limit}
+    </select>
+
+    <select id="memberCount" resultType="Integer">
+        select count(id)
+        from member_table
+    </select>
+
+    <select id="search" parameterType="HashMap" resultType="member">
+        select *
+        from member_table
+        where ${type} like concat('%', #{q}, '%')
+        order by id desc limit #{start}, #{limit}
+    </select>
+
+    <select id="searchCount" parameterType="HashMap" resultType="Integer">
+        select count(id)
+        from member_table
+        where ${type} like concat('%', #{q}, '%')
+    </select>
+
+    <select id="findFile" parameterType="Long" resultType="memberFile">
+        select *
+        from member_memberprofile_table
+        where memberId = #{id}
+    </select>
+
+    <delete id="memberDelete" parameterType="Long">
+        delete
+        from member_table
+        where id = #{id}
+    </delete>
+
+    <update id="memberUpdate" parameterType="member">
+        update member_table
+        set memberEmail= #{memberEmail},
+            memberPassword = #{memberPassword},
+            memberName = #{memberName},
+            memberMobile = #{memberMobile},
+            fileAttached = #{fileAttached}
+        where id = #{id}
+    </update>
+
+    <select id="findById" parameterType="Long" resultType="member">
+        select * from member_table where id=#{id};
+    </select>
+
+    <delete id="fileDelete" parameterType="Long">
+        delete from member_memberprofile_table where memberid=#{id}
+    </delete>
+
+</mapper>

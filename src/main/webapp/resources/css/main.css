@@ -1,0 +1,58 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+#header {
+    background-color: pink;
+    text-align: center;
+    padding: 20px;
+    height: 10%;
+}
+
+#nav {
+    background-color: lightpink;
+}
+
+#section {
+    background-color: aquamarine;
+    height: 70%;
+    overflow: scroll;
+    overflow-y: auto;
+    text-align: center;
+}
+
+#footer {
+    background-color: hotpink;
+    text-align: center;
+    padding: 20px;
+    height: 10%;
+}
+
+#nav ul {
+    list-style-type: none;
+    overflow: hidden;
+}
+
+#nav ul li {
+    float: left;
+}
+
+#nav ul li a {
+    display: inline-block;
+    padding: 10px;
+    text-decoration: none;
+    color: red;
+}
+#nav ul li.login-name {
+    float: right;
+}
+
+table {
+    margin: auto;
+    border: 1px solid black;
+}
+table tr,th,td {
+    padding: 5px;
+    border: 1px solid black;
+}
